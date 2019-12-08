@@ -5,12 +5,14 @@ import { GithubContext } from '../context/github/githubContext'
 export default function Search() {
 
     const [value, setValue] = useState('')
-    const { show } = useContext(AlertContext)
+    const { show, hide } = useContext(AlertContext)
     const github = useContext(GithubContext)
 
     const onSubmit = (event) => {
         if (event.key === 'Enter') {
-           if (value.trim()) {
+            github.clearUsers()
+            if (value.trim()) {
+                hide()
                 github.search(value.trim())
             } else {
                 show('Введите данные пользователя')
